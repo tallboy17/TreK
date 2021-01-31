@@ -7,12 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D58A26B25A052EA008BCEA6 /* beacons.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D58A26A25A052EA008BCEA6 /* beacons.json */; };
 		1D599831259C52E500C40E57 /* TreKApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D599830259C52E500C40E57 /* TreKApp.swift */; };
 		1D599833259C52E500C40E57 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D599832259C52E500C40E57 /* ContentView.swift */; };
 		1D599835259C52E500C40E57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D599834259C52E500C40E57 /* Assets.xcassets */; };
 		1D599838259C52E500C40E57 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D599837259C52E500C40E57 /* Preview Assets.xcassets */; };
 		1D599843259C52E600C40E57 /* TreKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D599842259C52E600C40E57 /* TreKTests.swift */; };
 		1D59984E259C52E600C40E57 /* TreKUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D59984D259C52E600C40E57 /* TreKUITests.swift */; };
+		1D7E3B2A259E4B90001B923B /* pedometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E3B29259E4B90001B923B /* pedometer.swift */; };
+		1D919F83259FDF100032DBA7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D919F82259FDF100032DBA7 /* CoreData.framework */; };
+		1D919F89259FDFCC0032DBA7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D919F87259FDFCC0032DBA7 /* Model.xcdatamodeld */; };
+		1D919FC025A011C70032DBA7 /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D919FBF25A011C70032DBA7 /* BeaconManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D58A26A25A052EA008BCEA6 /* beacons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = beacons.json; sourceTree = "<group>"; };
 		1D59982D259C52E500C40E57 /* TreK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TreK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D599830259C52E500C40E57 /* TreKApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreKApp.swift; sourceTree = "<group>"; };
 		1D599832259C52E500C40E57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +51,10 @@
 		1D599849259C52E600C40E57 /* TreKUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TreKUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D59984D259C52E600C40E57 /* TreKUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreKUITests.swift; sourceTree = "<group>"; };
 		1D59984F259C52E600C40E57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D7E3B29259E4B90001B923B /* pedometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pedometer.swift; sourceTree = "<group>"; };
+		1D919F82259FDF100032DBA7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1D919F88259FDFCC0032DBA7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		1D919FBF25A011C70032DBA7 /* BeaconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D919F83259FDF100032DBA7 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +90,7 @@
 				1D599841259C52E600C40E57 /* TreKTests */,
 				1D59984C259C52E600C40E57 /* TreKUITests */,
 				1D59982E259C52E500C40E57 /* Products */,
+				1D919F81259FDF100032DBA7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,8 +107,10 @@
 		1D59982F259C52E500C40E57 /* TreK */ = {
 			isa = PBXGroup;
 			children = (
+				1D599860259C549A00C40E57 /* Resources */,
+				1D59985F259C546E00C40E57 /* Model */,
+				1D59985E259C546100C40E57 /* View */,
 				1D599830259C52E500C40E57 /* TreKApp.swift */,
-				1D599832259C52E500C40E57 /* ContentView.swift */,
 				1D599834259C52E500C40E57 /* Assets.xcassets */,
 				1D599839259C52E500C40E57 /* Info.plist */,
 				1D599836259C52E500C40E57 /* Preview Content */,
@@ -128,6 +142,40 @@
 				1D59984F259C52E600C40E57 /* Info.plist */,
 			);
 			path = TreKUITests;
+			sourceTree = "<group>";
+		};
+		1D59985E259C546100C40E57 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1D599832259C52E500C40E57 /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1D59985F259C546E00C40E57 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1D919F87259FDFCC0032DBA7 /* Model.xcdatamodeld */,
+				1D7E3B29259E4B90001B923B /* pedometer.swift */,
+				1D919FBF25A011C70032DBA7 /* BeaconManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1D599860259C549A00C40E57 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1D58A26A25A052EA008BCEA6 /* beacons.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1D919F81259FDF100032DBA7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D919F82259FDF100032DBA7 /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D599838259C52E500C40E57 /* Preview Assets.xcassets in Resources */,
+				1D58A26B25A052EA008BCEA6 /* beacons.json in Resources */,
 				1D599835259C52E500C40E57 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +310,9 @@
 			files = (
 				1D599833259C52E500C40E57 /* ContentView.swift in Sources */,
 				1D599831259C52E500C40E57 /* TreKApp.swift in Sources */,
+				1D7E3B2A259E4B90001B923B /* pedometer.swift in Sources */,
+				1D919FC025A011C70032DBA7 /* BeaconManager.swift in Sources */,
+				1D919F89259FDFCC0032DBA7 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +632,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1D919F87259FDFCC0032DBA7 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1D919F88259FDFCC0032DBA7 /* Model.xcdatamodel */,
+			);
+			currentVersion = 1D919F88259FDFCC0032DBA7 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1D599825259C52E500C40E57 /* Project object */;
 }

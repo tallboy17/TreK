@@ -1,0 +1,24 @@
+[
+    {
+        "id": 2020,
+        "uuid": "93eccee0-eca5-4d53-9303-179dddf88a96",
+        "name": "Bed Room",
+        "icon": "bed.double",
+        "iconColor": "black"
+    },
+    {
+        "id": 2021,
+        "uuid": "154bd957-ec1b-4b5f-b70e-c96828a5055c",
+        "name": "Living Room",
+        "icon": "tv",
+        "iconColor": "black"
+    },
+    {
+        "id": 2022,
+        "uuid": "0fc50e42-b242-4530-87a6-0b25c4dc8aed",
+        "name": "Enter Door",
+        "icon": "home",
+        "iconColor": "black"
+    },
+   
+]
