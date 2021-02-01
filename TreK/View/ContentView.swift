@@ -31,7 +31,7 @@ struct ContentView: View {
                 .resizable()
                 .ignoresSafeArea()
                 .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-            
+                .blur(radius: 15)
             
             VStack {
                     

@@ -27,6 +27,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var calibratedDistance = 3.0
     private var defaultNotification = "Get set go..."
     private var moveNotified: Bool = false
+    private var alertManager = Alerts()
   
 
     
@@ -59,14 +60,18 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     override init() {
         super.init()
-
-        
         locationManager.delegate = self
+  
+        alertManager.requestNotifications()
+        requestLocationPermission()
+        
         
         notification = defaultNotification
         loadSensors()
-        requestLocationPermission()
+
         startHourlyCheckTimer()
+        
+       
      
       }
     
@@ -84,6 +89,8 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         if(selectedBeacon.status){
             moveNotified = true
             notification = "Break Time! Go ahead take a strech and go for a walk"
+            
+            alertManager.showAlert(title: "TreK",subtitle: notification)
         }
         else{
             notification = defaultNotification
@@ -235,15 +242,23 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     
                     if (selectedBeacon.name == "Elevator"){
                         notification = "Skip Elevator and try taking steps."
+                        
+                        alertManager.showAlert(title: "TreK",subtitle: notification)
                     }
                     else if ((!moveNotified) && (selectedBeacon.name == "Bedroom")){
                         notification = "Sleep well!."
+                        
+                        alertManager.showAlert(title: "TreK",subtitle: notification)
                     }
                     else if((!moveNotified) && (selectedBeacon.name == "Living Room")){
                         notification = "Lets watch some TV."
+                        
+                        alertManager.showAlert(title: "TreK",subtitle: notification)
                     }
                     else if(selectedBeacon.name == "Door"){
                         notification = "Bye!"
+                        
+                        alertManager.showAlert(title: "TreK",subtitle: notification)
                     }
                     else{
                         //notification = defaultNotification
