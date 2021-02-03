@@ -7,17 +7,19 @@
 
 import SwiftUI
 import CoreMotion
+import SwiftUICharts
 
 struct ContentView: View {
     
     @State private var isPaused = false
     @State private var pauseButtonText = "Pause"
     @State private var currentGoal: Double = 0
-   
+    
   
     
     @ObservedObject var pedometer = Pedometer()
     @ObservedObject var beaconManager = BeaconManager()
+    
     
     
     var body: some View {
@@ -31,7 +33,7 @@ struct ContentView: View {
                 .resizable()
                 .ignoresSafeArea()
                 .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                .blur(radius: 15)
+           
             
             VStack {
                     
@@ -143,9 +145,22 @@ struct ContentView: View {
                         
                     }
                 }
-                
-                
                 Divider()
+                VStack{
+                    BarChartView(
+                        data: ChartData(
+                            values: [("2018 Q4",63150),
+                                     ("2019 Q1",50900),
+                                     ("2019 Q2",77550),
+                                     ("2019 Q3",79600),
+                                     ("2019 Q4",92550)]),
+                        title: "Last 7 Days Steps",
+                        form: ChartForm.extraLarge,
+                        dropShadow: false
+                    )
+                }
+                
+                
                 Spacer()
                 VStack{
                     Text("\(beaconManager.notification)")
@@ -171,7 +186,7 @@ struct ContentView: View {
             pedometer.startCountingSteps()
             currentGoal = 10000
             
-            //print(sensors.name)
+           
         }
         
         

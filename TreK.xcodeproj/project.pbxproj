@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,9 +16,9 @@
 		1D59984E259C52E600C40E57 /* TreKUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D59984D259C52E600C40E57 /* TreKUITests.swift */; };
 		1D7E3B2A259E4B90001B923B /* pedometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E3B29259E4B90001B923B /* pedometer.swift */; };
 		1D919F83259FDF100032DBA7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D919F82259FDF100032DBA7 /* CoreData.framework */; };
-		1D919F89259FDFCC0032DBA7 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D919F87259FDFCC0032DBA7 /* Model.xcdatamodeld */; };
 		1D919FC025A011C70032DBA7 /* BeaconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D919FBF25A011C70032DBA7 /* BeaconManager.swift */; };
 		1DB5F35225C773A6008C849F /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB5F35125C773A6008C849F /* Alerts.swift */; };
+		38239D8225CA77CB00664D85 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 38239D8125CA77CB00664D85 /* SwiftUICharts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,6 @@
 		1D59984F259C52E600C40E57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D7E3B29259E4B90001B923B /* pedometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pedometer.swift; sourceTree = "<group>"; };
 		1D919F82259FDF100032DBA7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1D919F88259FDFCC0032DBA7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		1D919FBF25A011C70032DBA7 /* BeaconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconManager.swift; sourceTree = "<group>"; };
 		1DB5F35125C773A6008C849F /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,6 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D919F83259FDF100032DBA7 /* CoreData.framework in Frameworks */,
+				38239D8225CA77CB00664D85 /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,7 +157,6 @@
 		1D59985F259C546E00C40E57 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1D919F87259FDFCC0032DBA7 /* Model.xcdatamodeld */,
 				1D7E3B29259E4B90001B923B /* pedometer.swift */,
 				1D919FBF25A011C70032DBA7 /* BeaconManager.swift */,
 				1DB5F35125C773A6008C849F /* Alerts.swift */,
@@ -197,6 +196,9 @@
 			dependencies = (
 			);
 			name = TreK;
+			packageProductDependencies = (
+				38239D8125CA77CB00664D85 /* SwiftUICharts */,
+			);
 			productName = TreK;
 			productReference = 1D59982D259C52E500C40E57 /* TreK.app */;
 			productType = "com.apple.product-type.application";
@@ -268,6 +270,9 @@
 				Base,
 			);
 			mainGroup = 1D599824259C52E500C40E57;
+			packageReferences = (
+				38239D8025CA77CB00664D85 /* XCRemoteSwiftPackageReference "ChartView" */,
+			);
 			productRefGroup = 1D59982E259C52E500C40E57 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -316,7 +321,6 @@
 				1D7E3B2A259E4B90001B923B /* pedometer.swift in Sources */,
 				1D919FC025A011C70032DBA7 /* BeaconManager.swift in Sources */,
 				1DB5F35225C773A6008C849F /* Alerts.swift in Sources */,
-				1D919F89259FDFCC0032DBA7 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,7 +490,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.cybertrons.TreK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -508,7 +512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.cybertrons.TreK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -637,18 +641,24 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCVersionGroup section */
-		1D919F87259FDFCC0032DBA7 /* Model.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				1D919F88259FDFCC0032DBA7 /* Model.xcdatamodel */,
-			);
-			currentVersion = 1D919F88259FDFCC0032DBA7 /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
+/* Begin XCRemoteSwiftPackageReference section */
+		38239D8025CA77CB00664D85 /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
 		};
-/* End XCVersionGroup section */
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		38239D8125CA77CB00664D85 /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 38239D8025CA77CB00664D85 /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1D599825259C52E500C40E57 /* Project object */;
 }
