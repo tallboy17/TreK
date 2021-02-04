@@ -148,7 +148,10 @@ struct ContentView: View {
                 VStack{
                     
                     
-                    BarChartView(data: ChartData(points: barChartData), title: "Title", legend: "Legendary")
+                    BarChartView(data: ChartData(points: pedometer.stepHistory),
+                                 title: "Last 7 Days",
+                                 legend: "Daily Steps",
+                                 form: ChartForm.extraLarge, dropShadow: false)
                         
                     
                     
@@ -180,6 +183,11 @@ struct ContentView: View {
             pedometer.startCountingSteps()
             pedometer.getStepHistory()
             currentGoal = 10000
+            
+            barChartData.append(12)
+            barChartData.append(80)
+            
+            //barChartData = pedometer.stepHistory
             
            
         }
