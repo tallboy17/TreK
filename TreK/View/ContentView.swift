@@ -14,8 +14,7 @@ struct ContentView: View {
     @State private var isPaused = false
     @State private var pauseButtonText = "Pause"
     @State private var currentGoal: Double = 0
-    
-  
+    @State private var barChartData: [Double] = [63, 60, 79]
     
     @ObservedObject var pedometer = Pedometer()
     @ObservedObject var beaconManager = BeaconManager()
@@ -147,23 +146,18 @@ struct ContentView: View {
                 }
                 Divider()
                 VStack{
-                    BarChartView(
-                        data: ChartData(
-                            values: [("2018 Q4",63150),
-                                     ("2019 Q1",50900),
-                                     ("2019 Q2",77550),
-                                     ("2019 Q3",79600),
-                                     ("2019 Q4",92550)]),
-                        title: "Last 7 Days Steps",
-                        form: ChartForm.extraLarge,
-                        dropShadow: false
-                    )
+                    
+                    
+                    BarChartView(data: ChartData(points: barChartData), title: "Title", legend: "Legendary")
+                        
+                    
+                    
                 }
                 
                 
                 Spacer()
                 VStack{
-                    Text("\(beaconManager.notification)")
+                    Text("\(pedometer.stepHistory.count)")
                         .font(.system(size: 25))
                         .foregroundColor(Color.red)
                         .padding()
@@ -184,6 +178,7 @@ struct ContentView: View {
         }
         .onAppear{
             pedometer.startCountingSteps()
+            pedometer.getStepHistory()
             currentGoal = 10000
             
            

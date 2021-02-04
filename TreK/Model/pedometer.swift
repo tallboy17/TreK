@@ -14,7 +14,11 @@ class Pedometer: NSObject, ObservableObject {
     private let pedometer = CMPedometer ()
     private var previousSteps:Int = 0
     
+    @Published var stepHistory: [Double] = [] {
+        willSet { objectWillChange.send() }
+    }
     
+   
     
     @Published var stepsTaken = 0 {
         willSet { objectWillChange.send() }
@@ -24,35 +28,67 @@ class Pedometer: NSObject, ObservableObject {
         super.init()
         
         getTodaySteps()
+        
+        
     }
     
-    func get6DayStepHistory() -> [String: Int]{
-        var stepHistory = [String: Int]()
+    func getStepHistory()  {
         
-        for index in 1...6 {
-            let dayMinus:Double = Double(-1 * index * 60 * 60 * 24)
+       
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        
+        
+        var fromDate = today()
+        var toDate = today()
+        print (fromDate)
+        
+        for index in (2...4).reversed() {
+            //let dayMinus:Double = Double(-1 * index * 60 * 60 * 24)
           
             
-            let fromDate = Date(timeIntervalSinceNow: dayMinus)
-            let toDate = Date(timeIntervalSinceNow: dayMinus * -1)
-            let formater = DateFormatter()
+            //let fromDate = Date(timeIntervalSinceNow: dayMinus)
+            //let toDate = Date(timeIntervalSinceNow: dayMinus * -1)
+            //let formater = DateFormatter()
             
-            formater.dateStyle = .short
+            //formater.dateStyle = .short
             
+            print(index)
+            
+            
+            fromDate.changeDays(by: (-1*index))
+            print (fromDate)
+            toDate.changeDays(by: (-1*index)+1)
+            print (toDate)
             
             pedometer.queryPedometerData(from: fromDate, to: toDate, withHandler: { (pedometerData, error) in
                 if let pData = pedometerData{
-                    stepHistory[formater.string(from: toDate)] = pData.numberOfSteps.intValue
+                    
+                    let key = formatter.string(from: pData.startDate)
+                    print("Key : \(key)")
+                    
+                    DispatchQueue.main.async {
+                        self.stepHistory.append(pData.numberOfSteps.doubleValue)
+                    }
+                    
+                    
                 }
             })
+            
+            
+            //reset date to today
+            fromDate = today()
+            toDate = today()
+
         }
         
-        return stepHistory
+        
     }
     
     func getTodaySteps(){
         
-        let fromDate = Date(timeIntervalSinceNow: -1 * 60 * 60 * 24)
+        
+        let fromDate:Date = today()
         pedometer.queryPedometerData(from: fromDate, to: Date(), withHandler: { (pedometerData, error) in
             if let pData = pedometerData{
                 self.previousSteps = pData.numberOfSteps.intValue
@@ -60,6 +96,22 @@ class Pedometer: NSObject, ObservableObject {
             }
             
         })
+    }
+    
+    func today()->Date{
+        var  todayAtMidnight: Date
+        
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        //mm/dd/yyyy
+        let todayString = formatter.string(from: now)
+
+        
+        //formatter.dateFormat = "mm/dd/yyyy"
+        todayAtMidnight = formatter.date(from: todayString)!
+        
+        return todayAtMidnight
     }
     
     func startCountingSteps() {
@@ -83,7 +135,12 @@ class Pedometer: NSObject, ObservableObject {
         }
     }
     
-   //TODO
-    // 1. Select from phone history today's steps taken
+   
     
+}
+
+extension Date {
+    mutating func changeDays(by days: Int) {
+           self = Calendar.current.date(byAdding: .day, value: days, to: self)!
+       }
 }
