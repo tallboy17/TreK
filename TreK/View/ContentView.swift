@@ -26,12 +26,12 @@ struct ContentView: View {
        
         
         ZStack{
-           //(Color(red: 0, green: 188, blue: 235 ))
-            //.ignoresSafeArea()
-            Image("\(beaconManager.selectedBeacon.backgroundImage)")
-                .resizable()
-                .ignoresSafeArea()
-                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+           (Color(red: 255, green: 255, blue: 255 ))
+            .ignoresSafeArea()
+            //Image("\(beaconManager.selectedBeacon.backgroundImage)")
+             //   .resizable()
+             //   .ignoresSafeArea()
+             //   .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
            
             
             VStack {
@@ -147,11 +147,22 @@ struct ContentView: View {
                 Divider()
                 VStack{
                     
+                    let chartStyle = ChartStyle(
+                        backgroundColor: Color.white,
+                        accentColor: Colors.OrangeStart,
+                        secondGradientColor: Colors.OrangeEnd,
+                        textColor: Color.red,
+                        legendTextColor: Color.white,
+                        dropShadowColor: Color.gray
+                        )
                     
                     BarChartView(data: ChartData(points: pedometer.stepHistory),
-                                 title: "Last 7 Days",
-                                 legend: "Daily Steps",
-                                 form: ChartForm.extraLarge, dropShadow: false)
+                                 title: "Last 7 Days Steps",
+                                 style: chartStyle,
+                                 form: ChartForm.extraLarge,
+                                 dropShadow: false
+                                
+                    )
                         
                     
                     
@@ -160,7 +171,7 @@ struct ContentView: View {
                 
                 Spacer()
                 VStack{
-                    Text("\(pedometer.stepHistory.count)")
+                    Text("\(beaconManager.notification)")
                         .font(.system(size: 25))
                         .foregroundColor(Color.red)
                         .padding()
@@ -184,12 +195,6 @@ struct ContentView: View {
             pedometer.getStepHistory()
             currentGoal = 10000
             
-            barChartData.append(12)
-            barChartData.append(80)
-            
-            //barChartData = pedometer.stepHistory
-            
-           
         }
         
         

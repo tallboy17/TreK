@@ -43,7 +43,7 @@ class Pedometer: NSObject, ObservableObject {
         var toDate = today()
         print (fromDate)
         
-        for index in (2...4).reversed() {
+        for index in (2...8).reversed() {
             //let dayMinus:Double = Double(-1 * index * 60 * 60 * 24)
           
             
