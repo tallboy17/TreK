@@ -181,7 +181,12 @@ struct ContentView: View {
                             
                     )
                      
-                   BarChartView(data: ChartData(points:[8,23,54,32,12,37,7,23,43]), title: "Past 7 Days Daily Steps", style: chartStyle, form: ChartForm.extraLarge,  dropShadow: false)
+                    BarChartView(data: ChartData(points:pedometer.stepHistory),
+                                 title: "Past 7 Days Daily Steps",
+                                 style: chartStyle,
+                                 form: ChartForm.extraLarge,
+                                 dropShadow: false,
+                                 valueSpecifier: "%.0f")
                     
                  
                 }
