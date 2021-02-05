@@ -17,6 +17,8 @@ struct ContentView: View {
     @State private var currentGoal: Double = 0
     @State private var barChartData: [Double] = [63, 60, 79]
     
+    @State private var barChartDataTest = [("2018 Q4",63150), ("2019 Q1",50900), ("2019 Q2",77550), ("2019 Q3",79600), ("2019 Q4",92550)]
+    
     @ObservedObject var pedometer = Pedometer()
     @ObservedObject var beaconManager = BeaconManager()
     
@@ -161,15 +163,7 @@ struct ContentView: View {
                 VStack{
                     
                  
-               /*
-                    BarChartView(data: ChartData(points: pedometer.stepHistory),
-                                 title: "Last 7 Days Steps",
-                                 style: Styles.barChartStyleNeonBlueLight,
-                                 form: ChartForm.extraLarge,
-                                 dropShadow: false
-                                 
-                    )
-                 */
+               
                     
                     let chartStyle = ChartStyle(
                             backgroundColor: Color.white,
@@ -181,7 +175,7 @@ struct ContentView: View {
                             
                     )
                      
-                    BarChartView(data: ChartData(points:pedometer.stepHistory),
+                    BarChartView(data: ChartData(values:pedometer.stepHistory),
                                  title: "Past 7 Days Daily Steps",
                                  style: chartStyle,
                                  form: ChartForm.extraLarge,
@@ -203,6 +197,15 @@ struct ContentView: View {
             currentGoal = 10000
             
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                print("Moving back to the foreground!")
+            
+            pedometer.getStepHistory()
+            pedometer.getTodaySteps()
+            
+            
+        }
+     
         
         
     }

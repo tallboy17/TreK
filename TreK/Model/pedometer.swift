@@ -14,7 +14,7 @@ class Pedometer: NSObject, ObservableObject {
     private let pedometer = CMPedometer ()
     private var previousSteps:Int = 0
     
-    @Published var stepHistory: [Double] = [] {
+    @Published var stepHistory: [(day: String, steps: Double)] = [] {
         willSet { objectWillChange.send() }
     }
     
@@ -34,41 +34,34 @@ class Pedometer: NSObject, ObservableObject {
     
     func getStepHistory()  {
         
-       
+        //clear old histroy
+        self.stepHistory.removeAll()
+        
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         
         
         var fromDate = today()
         var toDate = today()
-        print (fromDate)
         
-        for index in (2...8).reversed() {
-            //let dayMinus:Double = Double(-1 * index * 60 * 60 * 24)
+        
+        for index in (1...7).reversed() {
           
-            
-            //let fromDate = Date(timeIntervalSinceNow: dayMinus)
-            //let toDate = Date(timeIntervalSinceNow: dayMinus * -1)
-            //let formater = DateFormatter()
-            
-            //formater.dateStyle = .short
-            
-            print(index)
+    
             
             
             fromDate.changeDays(by: (-1*index))
-            print (fromDate)
             toDate.changeDays(by: (-1*index)+1)
-            print (toDate)
+    
             
             pedometer.queryPedometerData(from: fromDate, to: toDate, withHandler: { (pedometerData, error) in
                 if let pData = pedometerData{
                     
                     let key = formatter.string(from: pData.startDate)
-                    print("Key : \(key)")
+                    let DayTuple = (day: key, steps: pData.numberOfSteps.doubleValue)
                     
                     DispatchQueue.main.async {
-                        self.stepHistory.append(pData.numberOfSteps.doubleValue)
+                        self.stepHistory.append(DayTuple)
                     }
                     
                     
@@ -92,7 +85,10 @@ class Pedometer: NSObject, ObservableObject {
         pedometer.queryPedometerData(from: fromDate, to: Date(), withHandler: { (pedometerData, error) in
             if let pData = pedometerData{
                 self.previousSteps = pData.numberOfSteps.intValue
-                self.stepsTaken = self.previousSteps
+                DispatchQueue.main.async {
+                    self.stepsTaken = self.previousSteps
+                }
+                
             }
             
         })
