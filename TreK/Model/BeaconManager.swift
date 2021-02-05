@@ -9,6 +9,7 @@ import Foundation
 import CoreLocation
 import Combine
 
+
 struct Sensor: Hashable, Codable, Identifiable {
     var id: Int
     var uuid: String

@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreMotion
 import SwiftUICharts
+import NotificationBannerSwift
 
 struct ContentView: View {
     
@@ -106,12 +107,18 @@ struct ContentView: View {
                                     pauseButtonText = "Pause"
                                     pedometer.startCountingSteps()
                                     
+                                    let banner = NotificationBanner(title: "TreK Notification", subtitle: "Pedometer is active!", style: .success)
+                                    banner.show(bannerPosition: .bottom)
+                                    banner.show()
                                 }
                                 else{
                                     isPaused = true
                                     pauseButtonText = "Play"
                                     pedometer.stopCountingSteps()
                                     
+                                    let banner = NotificationBanner(title: "TreK Notification", subtitle: "Pedometer is paused!", style: .danger)
+                                    banner.show(bannerPosition: .bottom)
+                                    banner.show()
                                 }
                             }) {
                                 Image(systemName: "\(pauseButtonText.lowercased())")
@@ -127,12 +134,18 @@ struct ContentView: View {
                             .background(Color.white)
                             .foregroundColor(Color.black)
                             .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                            .cornerRadius(3)
                         }
                         .frame(height:100, alignment: .center)
                         
                         VStack{
-                            Slider(value: $currentGoal, in: 5000...30000, step: 1000)
-                                .accentColor(.red)
+                            Slider(value: $currentGoal,
+                                   in: 5000...30000,
+                                   step: 1000
+                            )
+                            .accentColor(.red)
+                         
+                                
                                 
                             Text("Slide to set Goal")
                                 .foregroundColor(Color.black)
@@ -147,42 +160,31 @@ struct ContentView: View {
                 Divider()
                 VStack{
                     
-                    let chartStyle = ChartStyle(
-                        backgroundColor: Color.white,
-                        accentColor: Colors.OrangeStart,
-                        secondGradientColor: Colors.OrangeEnd,
-                        textColor: Color.red,
-                        legendTextColor: Color.white,
-                        dropShadowColor: Color.gray
-                        )
-                    
+                 
+               /*
                     BarChartView(data: ChartData(points: pedometer.stepHistory),
                                  title: "Last 7 Days Steps",
-                                 style: chartStyle,
+                                 style: Styles.barChartStyleNeonBlueLight,
                                  form: ChartForm.extraLarge,
                                  dropShadow: false
-                                
+                                 
                     )
-                        
+                 */
                     
+                    let chartStyle = ChartStyle(
+                            backgroundColor: Color.white,
+                            accentColor: Colors.OrangeStart,
+                            secondGradientColor: Colors.OrangeEnd,
+                            textColor: Color.black,
+                            legendTextColor: Color.black,
+                            dropShadowColor: Color.gray
+                            
+                    )
+                     
+                   BarChartView(data: ChartData(points:[8,23,54,32,12,37,7,23,43]), title: "Past 7 Days Daily Steps", style: chartStyle, form: ChartForm.extraLarge,  dropShadow: false)
                     
+                 
                 }
-                
-                
-                Spacer()
-                VStack{
-                    Text("\(beaconManager.notification)")
-                        .font(.system(size: 25))
-                        .foregroundColor(Color.red)
-                        .padding()
-                        .cornerRadius(25)
-                        
-                        
-                       
-                }
-                .frame(width: 400, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                .background(Color.white)
-                
                 
                
             
