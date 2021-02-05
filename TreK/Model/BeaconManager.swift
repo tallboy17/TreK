@@ -21,6 +21,9 @@ struct Sensor: Hashable, Codable, Identifiable {
     var distance: Double
     var onEnterMessage: String
     var entryAnnounced: Bool
+    var entryTime: Date?
+    var regionElapseTime: Int?
+    var regionElapseMessage: String?
 }
 
 class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
@@ -84,7 +87,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
       }
     
     func startHourlyCheckTimer(){
-        _ = Timer.scheduledTimer(timeInterval: 15.0,
+        _ = Timer.scheduledTimer(timeInterval: 20.0,
                                          target: self,
                                          selector: #selector(dingDong),
                                          userInfo: nil, repeats: true)
@@ -98,7 +101,8 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             moveNotified = true
             notification = "Break Time! Go ahead take a strech and go for a walk"
             
-            //alertManager.showAlert(title: "TreK",subtitle: notification)
+            alertManager.showAlert(title: "TreK",subtitle: notification)
+            alertManager.backgroundAlert(title: "TreK", subtitle: notification)
         }
         else{
             notification = defaultNotification
@@ -116,7 +120,9 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                                       isActive: false,
                                       distance: 30,
                                       onEnterMessage: "Let's watch some TV",
-                                      entryAnnounced: false))
+                                      entryAnnounced: false,
+                                      regionElapseTime: 20,
+                                      regionElapseMessage: "Lets stop watching TV"))
         locationSensors.append(Sensor(id:20202,
                                       uuid: "821f04d8-92e0-4fec-8b69-0cd710a68dce",
                                       name:"Bedroom",
@@ -126,7 +132,9 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                                       isActive: false,
                                       distance: 30,
                                       onEnterMessage: "Let's Relax",
-                                      entryAnnounced: false))
+                                      entryAnnounced: false,
+                                      regionElapseTime: 20,
+                                      regionElapseMessage: "Wake up, let's go for a walk"))
         locationSensors.append(Sensor(id:20203,
                                       uuid: "34fa2185-a252-42bd-a186-3073e2cd0a8c",
                                       name:"Door",
@@ -239,17 +247,15 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 
                     
                     if(selectedBeacon.isActive && (selectedBeacon.uuid == locationSensors[index].uuid)){
-                        print ("in the region")
                         if(!selectedBeacon.entryAnnounced){
                             alertManager.showAlert(title: "TreK",subtitle: selectedBeacon.onEnterMessage)
                             selectedBeacon.entryAnnounced = true
                         }
                     }
                     else{
-                        print ("new region")
-                        
                         selectedBeacon = locationSensors[index]
                         selectedBeacon.isActive = true
+                        selectedBeacon.entryTime = Date()
                         selectedBeacon.distance = beacon.accuracy
                         print ("selected beacon : \(selectedBeacon.name)")
                         print ("selected beacon status : \(selectedBeacon.isActive)")
