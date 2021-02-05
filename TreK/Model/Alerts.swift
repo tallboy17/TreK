@@ -50,9 +50,16 @@ class Alerts: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func showAlert(title:String, subtitle:String){
-        print("Show Notification")
+
+       
+        let banner = NotificationBanner(title: title, subtitle: subtitle, style: .info)
+        banner.show(bannerPosition: .bottom)
+        banner.show()
+       
+    }
+    
+    func backgroundAlert(title:String, subtitle:String){
         
-        /*
         let content = UNMutableNotificationContent()
         content.title = title
         content.subtitle = subtitle
@@ -61,12 +68,6 @@ class Alerts: NSObject, UNUserNotificationCenterDelegate {
         let message = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger:trigger)
         
         alertCenter.add(message)
-        */
-        
-        let banner = NotificationBanner(title: title, subtitle: subtitle, style: .info)
-        banner.show(bannerPosition: .bottom)
-        banner.show()
-       
     }
     
 }

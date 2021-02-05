@@ -17,8 +17,10 @@ struct Sensor: Hashable, Codable, Identifiable {
     var icon: String
     var iconColor: String
     var backgroundImage: String
-    var status: Bool
+    var isActive: Bool
     var distance: Double
+    var onEnterMessage: String
+    var entryAnnounced: Bool
 }
 
 class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
@@ -35,14 +37,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published private (set) var locationPermissionGranted = false
     
    
-    @Published var selectedBeacon = Sensor(id:20020,
-                                uuid: "cbc59d2a-ca70-44cc-99c2-ca85447ad000",
-                                name:"Unknown",
-                                icon:"heart",
-                                iconColor:"gray",
-                                backgroundImage: "bkg",
-                                status: false,
-                                distance: 30 ) {
+    @Published var selectedBeacon:Sensor  {
         willSet { objectWillChange.send() }
     }
     
@@ -55,12 +50,24 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
 
-    
-    
-    
-
+   
     override init() {
+        
+        
+        self.selectedBeacon = Sensor(id:20201,
+              uuid: "cbc59d2a-ca70-44cc-99c2-ca854",
+              name:"Living Room",
+              icon:"tv",
+              iconColor:"gray",
+              backgroundImage: "lr",
+              isActive: false,
+              distance: 30,
+              onEnterMessage: "Let's watch some TV",
+              entryAnnounced: false)
+        
+        
         super.init()
+        
         locationManager.delegate = self
   
         alertManager.requestNotifications()
@@ -86,12 +93,12 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     @objc func dingDong(){
-        print("timer fire: \(selectedBeacon.status)")
-        if(selectedBeacon.status){
+        print("timer fire: \(selectedBeacon.isActive)")
+        if(selectedBeacon.isActive){
             moveNotified = true
             notification = "Break Time! Go ahead take a strech and go for a walk"
             
-            alertManager.showAlert(title: "TreK",subtitle: notification)
+            //alertManager.showAlert(title: "TreK",subtitle: notification)
         }
         else{
             notification = defaultNotification
@@ -106,32 +113,40 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                                       icon:"tv",
                                       iconColor:"gray",
                                       backgroundImage: "lr",
-                                      status: false,
-                                      distance: 30 ))
+                                      isActive: false,
+                                      distance: 30,
+                                      onEnterMessage: "Let's watch some TV",
+                                      entryAnnounced: false))
         locationSensors.append(Sensor(id:20202,
                                       uuid: "821f04d8-92e0-4fec-8b69-0cd710a68dce",
                                       name:"Bedroom",
                                       icon:"bed.double",
                                       iconColor:"gray",
                                       backgroundImage: "br",
-                                      status: false,
-                                      distance: 30 ))
+                                      isActive: false,
+                                      distance: 30,
+                                      onEnterMessage: "Let's Relax",
+                                      entryAnnounced: false))
         locationSensors.append(Sensor(id:20203,
                                       uuid: "34fa2185-a252-42bd-a186-3073e2cd0a8c",
                                       name:"Door",
                                       icon:"house",
                                       iconColor:"gray",
                                       backgroundImage: "dr",
-                                      status: false,
-                                      distance: 30 ))
+                                      isActive: false,
+                                      distance: 30,
+                                      onEnterMessage: "Let's go for a walk",
+                                      entryAnnounced: false))
        locationSensors.append(Sensor(id:20203,
                                       uuid: "a2711288-3d52-4088-895f-4914f8c12646",
                                       name:"Elevator",
                                       icon:"capslock",
                                       iconColor:"gray",
                                       backgroundImage: "el",
-                                      status: false,
-                                      distance: 30 ))
+                                      isActive: false,
+                                      distance: 30,
+                                      onEnterMessage: "Let's skip elevator and take stairs",
+                                      entryAnnounced: false))
  
         
     }
@@ -142,27 +157,23 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
     func locationManager(_ manager: CLLocationManager,
                              didEnterRegion region: CLRegion){
-            
        
-        
-        if let beaconRegion = region as? CLBeaconRegion {
-            print("DID ENTER REGION: uuid: \(beaconRegion.uuid.uuidString)")
-     
-            
-        }
+       
             
     }
 
     func locationManager(_ manager: CLLocationManager,
                          didExitRegion region: CLRegion){
-                
+                print ("Exit")
 
-        print ("Exited the region")
-        
-        //selectedBeacon.backgroundImage = "bkg"
-        //notification = defaultNotification
-        //selectedBeacon.status = false
-        
+        if let beaconRegion = region as? CLBeaconRegion {
+            print("Exit: uuid: \(beaconRegion.uuid.uuidString)")
+            if(selectedBeacon.uuid == beaconRegion.uuid.uuidString.lowercased()){
+                selectedBeacon.isActive = false
+            }
+            
+        }
+  
     }
 
     func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
@@ -179,15 +190,9 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
             if status == .authorizedAlways {
                 publish(permissionGranted: true)
-                
- 
-                
                 if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
                     startMonitoring()
-                    
-                    
-                    print("Monitoring")
-                    
+                
                     return
                 }
             } else {
@@ -224,53 +229,42 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        
         for beacon in beacons{
-            
-           
             if((beacon.accuracy>0) && (beacon.accuracy<calibratedDistance)){
-                print ("Beacon ID: \(beacon.uuid)")
-                print ("Beacon ID: \(beacon.accuracy)")
+                //print ("Beacon ID: \(beacon.uuid)")
+                //print ("Beacon ID: \(beacon.accuracy)")
                 
                 if let index = locationSensors.firstIndex(where: {$0.uuid == beacon.uuid.uuidString.lowercased()}){
                 
-                    print ("Found beacon")
-                    selectedBeacon = locationSensors[index]
-                    selectedBeacon.status = true
-                    selectedBeacon.distance = beacon.accuracy
-                    print ("selected beacon : \(selectedBeacon.name)")
-                    print ("selected beacon status : \(selectedBeacon.status)")
-                    print ("moveNotified : \(moveNotified)")
                     
-                    if (selectedBeacon.name == "Elevator"){
-                        notification = "Skip Elevator and try taking steps."
-                        
-                        alertManager.showAlert(title: "TreK",subtitle: notification)
-                    }
-                    else if ((!moveNotified) && (selectedBeacon.name == "Bedroom")){
-                        notification = "Sleep well!."
-                        
-                        alertManager.showAlert(title: "TreK",subtitle: notification)
-                    }
-                    else if((!moveNotified) && (selectedBeacon.name == "Living Room")){
-                        notification = "Lets watch some TV."
-                        
-                        alertManager.showAlert(title: "TreK",subtitle: notification)
-                    }
-                    else if(selectedBeacon.name == "Door"){
-                        notification = "Bye!"
-                        
-                        alertManager.showAlert(title: "TreK",subtitle: notification)
+                    if(selectedBeacon.isActive && (selectedBeacon.uuid == locationSensors[index].uuid)){
+                        print ("in the region")
+                        if(!selectedBeacon.entryAnnounced){
+                            alertManager.showAlert(title: "TreK",subtitle: selectedBeacon.onEnterMessage)
+                            selectedBeacon.entryAnnounced = true
+                        }
                     }
                     else{
-                        //notification = defaultNotification
+                        print ("new region")
+                        
+                        selectedBeacon = locationSensors[index]
+                        selectedBeacon.isActive = true
+                        selectedBeacon.distance = beacon.accuracy
+                        print ("selected beacon : \(selectedBeacon.name)")
+                        print ("selected beacon status : \(selectedBeacon.isActive)")
+                        print ("moveNotified : \(moveNotified)")
                     }
+                    
+            
                     
                 }
                 
                
             }
             else if((beacon.uuid.uuidString.lowercased() == selectedBeacon.uuid) && (beacon.accuracy>calibratedDistance)){
-                selectedBeacon.status = false
+                selectedBeacon.isActive = false
+                selectedBeacon.entryAnnounced = false
                 selectedBeacon.backgroundImage = "bkg"
                 selectedBeacon.name = "Unknown"
                 

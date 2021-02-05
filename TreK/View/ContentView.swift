@@ -54,7 +54,7 @@ struct ContentView: View {
                     HStack{
                         Image(systemName: "location.fill")
                             .font(.system(size: 15.0))
-                            .foregroundColor(beaconManager.selectedBeacon.status ? .green: .gray)
+                            .foregroundColor(beaconManager.selectedBeacon.isActive ? .green: .gray)
                         Text("\(beaconManager.selectedBeacon.name)")
                             .font(.system(size:15))
                             .foregroundColor(.black)
