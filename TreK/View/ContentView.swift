@@ -198,11 +198,11 @@ struct ContentView: View {
             
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                print("Moving back to the foreground!")
-            
-            pedometer.getStepHistory()
             pedometer.getTodaySteps()
             
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            pedometer.getStepHistory()
             
         }
      

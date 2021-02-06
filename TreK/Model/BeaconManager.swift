@@ -80,7 +80,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         notification = defaultNotification
         loadSensors()
 
-        startHourlyCheckTimer()
+        //startHourlyCheckTimer()
         
        
      
@@ -121,7 +121,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                                       distance: 30,
                                       onEnterMessage: "Let's watch some TV",
                                       entryAnnounced: false,
-                                      regionElapseTime: 20,
+                                      regionElapseTime: 60,
                                       regionElapseMessage: "Lets stop watching TV"))
         locationSensors.append(Sensor(id:20202,
                                       uuid: "821f04d8-92e0-4fec-8b69-0cd710a68dce",
@@ -133,7 +133,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                                       distance: 30,
                                       onEnterMessage: "Let's Relax",
                                       entryAnnounced: false,
-                                      regionElapseTime: 20,
+                                      regionElapseTime: 120,
                                       regionElapseMessage: "Wake up, let's go for a walk"))
         locationSensors.append(Sensor(id:20203,
                                       uuid: "34fa2185-a252-42bd-a186-3073e2cd0a8c",
@@ -247,9 +247,17 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 
                     
                     if(selectedBeacon.isActive && (selectedBeacon.uuid == locationSensors[index].uuid)){
+                        //notifies only once on entry
                         if(!selectedBeacon.entryAnnounced){
                             alertManager.showAlert(title: "TreK",subtitle: selectedBeacon.onEnterMessage)
                             selectedBeacon.entryAnnounced = true
+                        }
+                        
+                        //notifies on elapses time
+                        let beaconElapseTime = Int(Date().timeIntervalSince(selectedBeacon.entryTime!))
+                        if(beaconElapseTime > selectedBeacon.regionElapseTime!){
+                            alertManager.showAlert(title: "TreK",subtitle: selectedBeacon.regionElapseMessage!)
+                            selectedBeacon.entryTime = Date()
                         }
                     }
                     else{
@@ -282,6 +290,7 @@ class BeaconManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         
     }
+    
     
     
     
