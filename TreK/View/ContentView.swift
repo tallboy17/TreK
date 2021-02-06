@@ -29,7 +29,7 @@ struct ContentView: View {
        
         
         ZStack{
-           (Color(red: 255, green: 255, blue: 255 ))
+            (Color.white)
             .ignoresSafeArea()
             //Image("\(beaconManager.selectedBeacon.backgroundImage)")
              //   .resizable()
@@ -48,7 +48,7 @@ struct ContentView: View {
                         
                         Text("K")
                             .font(.system(size: 50))
-                            .foregroundColor(Color(red: 210, green: 0, blue: 0, opacity: 1.0))
+                            .foregroundColor(Color.red)
                             .padding(.trailing,0.0)
                        
                     }
@@ -145,7 +145,8 @@ struct ContentView: View {
                                    in: 5000...30000,
                                    step: 1000
                             )
-                            .accentColor(.red)
+                            .accentColor(.orange)
+                            
                          
                                 
                                 
