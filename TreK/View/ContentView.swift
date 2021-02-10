@@ -199,11 +199,11 @@ struct ContentView: View {
             
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            pedometer.getTodaySteps()
+            //pedometer.getTodaySteps()
             
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-            pedometer.getStepHistory()
+            //pedometer.getStepHistory()
             
         }
      

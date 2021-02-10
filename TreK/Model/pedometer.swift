@@ -37,6 +37,8 @@ class Pedometer: NSObject, ObservableObject {
         //clear old histroy
         self.stepHistory.removeAll()
         
+        var loadStepHistory: [(day: String, steps: Double)] = []
+        
         let formatter = DateFormatter()
         formatter.dateStyle = .short
         
@@ -47,9 +49,6 @@ class Pedometer: NSObject, ObservableObject {
         
         for index in (1...7).reversed() {
           
-    
-            
-            
             fromDate.changeDays(by: (-1*index))
             toDate.changeDays(by: (-1*index)+1)
     
@@ -59,11 +58,7 @@ class Pedometer: NSObject, ObservableObject {
                     
                     let key = formatter.string(from: pData.startDate)
                     let DayTuple = (day: key, steps: pData.numberOfSteps.doubleValue)
-                    
-                    DispatchQueue.main.async {
-                        self.stepHistory.append(DayTuple)
-                    }
-                    
+                    loadStepHistory.append(DayTuple)
                     
                 }
             })
@@ -73,6 +68,10 @@ class Pedometer: NSObject, ObservableObject {
             fromDate = today()
             toDate = today()
 
+        }
+        
+        DispatchQueue.main.async {
+            self.stepHistory = loadStepHistory
         }
         
         
